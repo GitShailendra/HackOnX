@@ -50,7 +50,9 @@ const RegistrationForm = () => {
   const domains = [
     'AI & ML',
     'IOT & Hardware',
+    'Wev Dev',
     'CYBERSECURITY & BLOCKCAHIN',
+    'Web3',
     'OPEN DOMAIN'
   ];
 

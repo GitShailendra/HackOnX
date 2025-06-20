@@ -97,7 +97,7 @@ tShirtSize: {
   // Proposal Information
   domain: {
     type: String,
-    enum: ['Artificial Intelligence', 'Web Development', 'Open Innovation','AI & ML', 'IOT & Hardware', 'Cybersecurity & Blockchain','Open Domain'],
+    enum: ['Artificial Intelligence', 'Web Dev', 'Web3', 'Open Innovation','AI & ML', 'IOT & Hardware', 'Cybersecurity & Blockchain','Open Domain'],
     required: true
   },
   proposalFile: {
