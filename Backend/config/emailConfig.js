@@ -1,19 +1,19 @@
 // config/emailConfig.js
 
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.mailgun.org',
+  host: "smtp.mailgun.org",
   port: 587,
   secure: false, // false for 587, true for 465
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
+    pass: process.env.EMAIL_PASSWORD,
   },
   tls: {
     // Do not fail on invalid certificates
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+  },
 });
 
 const sendEmail = async ({ to, subject, html }) => {
@@ -22,32 +22,32 @@ const sendEmail = async ({ to, subject, html }) => {
       from: `skillonx <${process.env.EMAIL_USER}>`,
       to,
       subject,
-      html
+      html,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent:', info.messageId);
+    console.log("Email sent:", info.messageId);
     return true;
   } catch (error) {
-    console.error('Email sending error:', error);
+    console.error("Email sending error:", error);
     return false;
   }
 };
 const sendVerificationEmail = async (email, verificationCode, acoountType) => {
   try {
-    const baseUrl = 'http://localhost:5173';
-    const prodUrl = 'https://skillonx.com'
+    const baseUrl = "http://localhost:5173";
+    const prodUrl = "https://skillonx.com";
     // For production
     // const baseUrl = 'https://skillonx.com';
 
-    const verificationLink = `${prodUrl}/verification-email?code=${verificationCode}&email=${encodeURIComponent(email)}&accountType=${acoountType}`;
-
-
+    const verificationLink = `${prodUrl}/verification-email?code=${verificationCode}&email=${encodeURIComponent(
+      email
+    )}&accountType=${acoountType}`;
 
     const mailOptions = {
       from: `skillonx <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: 'Verify your email address',
+      subject: "Verify your email address",
       html: `
         <p>Thank you for registering at skillonx.</p>
         <p>Your verification code is:</p>
@@ -60,15 +60,20 @@ const sendVerificationEmail = async (email, verificationCode, acoountType) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log('Verification email sent to:', email);
+    console.log("Verification email sent to:", email);
     return true;
   } catch (error) {
-    console.error('Error sending verification email:', error);
+    console.error("Error sending verification email:", error);
     throw error;
   }
 };
 
-const sendApprovalEmail = async (universityEmail, isApproved, universityName, remarks) => {
+const sendApprovalEmail = async (
+  universityEmail,
+  isApproved,
+  universityName,
+  remarks
+) => {
   try {
     // Email template for approval
     const approvalTemplate = `
@@ -80,7 +85,9 @@ const sendApprovalEmail = async (universityEmail, isApproved, universityName, re
         <div style="padding: 20px;">
           <p>Dear ${universityName},</p>
           
-          ${isApproved ? `
+          ${
+            isApproved
+              ? `
             <p>Congratulations! Your university registration has been approved. You can now access your account on Skillonx.</p>
             
             <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin: 20px 0;">
@@ -93,16 +100,22 @@ const sendApprovalEmail = async (universityEmail, isApproved, universityName, re
               <li>Complete your university profile</li>
               <li>Start managing your courses and students</li>
             </ol>
-          ` : `
+          `
+              : `
             <p>Thank you for your interest in registering with Skillonx. After careful review of your application, we regret to inform you that we cannot approve your registration at this time.</p>
             
             <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin: 20px 0;">
               <strong>Status: Not Approved</strong>
-              ${remarks ? `<p style="margin-top: 10px;">Remarks: ${remarks}</p>` : ''}
+              ${
+                remarks
+                  ? `<p style="margin-top: 10px;">Remarks: ${remarks}</p>`
+                  : ""
+              }
             </div>
 
             <p>If you believe this decision was made in error or would like to submit additional information, please contact our support team.</p>
-          `}
+          `
+          }
           
           <p style="margin-top: 20px;">Best regards,<br>The Skillonx Team</p>
         </div>
@@ -118,23 +131,25 @@ const sendApprovalEmail = async (universityEmail, isApproved, universityName, re
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: universityEmail,
-      subject: isApproved ? 'University Registration Approved - Skillonx' : 'University Registration Update - Skillonx',
-      html: approvalTemplate
+      subject: isApproved
+        ? "University Registration Approved - Skillonx"
+        : "University Registration Update - Skillonx",
+      html: approvalTemplate,
     };
 
     // Send email
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', info.messageId);
+    console.log("Email sent successfully:", info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending approval email:', error);
+    console.error("Error sending approval email:", error);
     return false;
   }
 };
 const sendBulkWelcomeEmail = async (users, subject, messageContent) => {
   try {
     if (!Array.isArray(users) || users.length === 0) {
-      throw new Error('Invalid users data provided');
+      throw new Error("Invalid users data provided");
     }
 
     const emailTemplate = (firstName, content) => `
@@ -164,8 +179,8 @@ const sendBulkWelcomeEmail = async (users, subject, messageContent) => {
           const mailOptions = {
             from: `Skillonx <${process.env.EMAIL_USER}>`,
             to: user.email,
-            subject: subject || 'Message from Skillonx',
-            html: emailTemplate(user.firstName || 'Student', messageContent)
+            subject: subject || "Message from Skillonx",
+            html: emailTemplate(user.firstName || "Student", messageContent),
           };
 
           const info = await transporter.sendMail(mailOptions);
@@ -174,7 +189,7 @@ const sendBulkWelcomeEmail = async (users, subject, messageContent) => {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
-            success: true
+            success: true,
           };
         } catch (error) {
           console.error(`Error sending email to ${user.email}:`, error);
@@ -183,7 +198,7 @@ const sendBulkWelcomeEmail = async (users, subject, messageContent) => {
             firstName: user.firstName,
             lastName: user.lastName,
             success: false,
-            error: error.message
+            error: error.message,
           };
         }
       })
@@ -192,47 +207,56 @@ const sendBulkWelcomeEmail = async (users, subject, messageContent) => {
     // Return summary of results
     const summary = {
       total: results.length,
-      successful: results.filter(r => r.success).length,
-      failed: results.filter(r => !r.success).length,
-      details: results
+      successful: results.filter((r) => r.success).length,
+      failed: results.filter((r) => !r.success).length,
+      details: results,
     };
 
     return summary;
   } catch (error) {
-    console.error('Error in bulk email:', error);
+    console.error("Error in bulk email:", error);
     throw error;
   }
 };
 
-
-
-const sendHackathonRegistrationEmail = async (email, fullName, domain, hasProposal) => {
+const sendHackathonRegistrationEmail = async (
+  email,
+  fullName,
+  domain,
+  hasProposal
+) => {
   try {
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">INNOVONX 2.0 Registration</h1>
+          <h1 style="color: #ffffff;">HACKONX Registration</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
           <p>Dear ${fullName},</p>
           
-          <p>Thank you for registering for <strong>INNOVONX 2.0 2025</strong>! We're excited to have you join our community of innovators and problem solvers.</p>
+          <p>Thank you for registering for <strong>HACKONX 2025</strong>! We're excited to have you join our community of innovators and problem solvers.</p>
           
           <div style="background-color: #e9ecef; padding: 15px; border-radius: 4px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #6b46c1;">Registration Details</h3>
             <p><strong>College:</strong> DSATM Bangalore</p>
             <p><strong>Domain:</strong> ${domain}</p>
-            <p><strong>Proposal Status:</strong> ${hasProposal ? 'Submitted' : 'Pending'}</p>
+            <p><strong>Proposal Status:</strong> ${
+              hasProposal ? "Submitted" : "Pending"
+            }</p>
           </div>
           
-          ${!hasProposal ? `
+          ${
+            !hasProposal
+              ? `
             <div style="background-color: #fff3cd; color: #856404; padding: 15px; border-radius: 4px; margin: 20px 0;">
               <strong>Important:</strong> Your registration is incomplete. Please submit your project proposal through your dashboard as soon as possible to complete your application.
             </div>
-          ` : `
+          `
+              : `
             <p>Our team will review your application and proposal. You'll be notified once the review process is complete.</p>
-          `}
+          `
+          }
           
           <p>You can log in to your dashboard at any time to check your application status.</p>
           
@@ -249,39 +273,49 @@ const sendHackathonRegistrationEmail = async (email, fullName, domain, hasPropos
     `;
 
     const mailOptions = {
-      from: `INNOVONX 2.0 2025 <${process.env.EMAIL_USER}>`,
+      from: `HACKONX 2025 <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: 'INNOVONX 2.0 2025 - Registration Confirmation',
-      html: emailTemplate
+      subject: "HACKONX 2025 - Registration Confirmation",
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Registration email sent to:', email, info.messageId);
+    console.log("Registration email sent to:", email, info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending hackathon registration email:', error);
+    console.error("Error sending hackathon registration email:", error);
     return false;
   }
 };
 
-const sendTeamMemberRegistrationEmail = async (teamMembers, teamName, teamLeaderName, domain) => {
+const sendTeamMemberRegistrationEmail = async (
+  teamMembers,
+  teamName,
+  teamLeaderName,
+  domain
+) => {
   try {
     if (!Array.isArray(teamMembers) || teamMembers.length === 0) {
-      console.log('No team members to notify');
-      return { success: false, message: 'No team members to notify' };
+      console.log("No team members to notify");
+      return { success: false, message: "No team members to notify" };
     }
 
     // Create email template for team members
-    const teamMemberEmailTemplate = (memberName, teamLeaderName, teamName, domain) => `
+    const teamMemberEmailTemplate = (
+      memberName,
+      teamLeaderName,
+      teamName,
+      domain
+    ) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">INNOVONX 2.0 2025 - Team Registration</h1>
+          <h1 style="color: #ffffff;">HACKONX 2025 - Team Registration</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
           <p>Dear ${memberName},</p>
           
-          <p>Congratulations! You have been registered as a team member for <strong>INNOVONX 2.0 2025</strong> by ${teamLeaderName}.</p>
+          <p>Congratulations! You have been registered as a team member for <strong>HACKONX 2025</strong> by ${teamLeaderName}.</p>
           
           <div style="background-color: #e9ecef; padding: 15px; border-radius: 4px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #6b46c1;">Team Details</h3>
@@ -316,32 +350,43 @@ const sendTeamMemberRegistrationEmail = async (teamMembers, teamName, teamLeader
           if (!member.email || !member.fullName) {
             return {
               success: false,
-              message: 'Missing email or name for team member',
-              member
+              message: "Missing email or name for team member",
+              member,
             };
           }
 
           const mailOptions = {
-            from: `INNOVONX 2.0 2025 <${process.env.EMAIL_USER}>`,
+            from: `HACKONX 2025 <${process.env.EMAIL_USER}>`,
             to: member.email,
-            subject: `INNOVONX 2.0 2025 - You've Been Added to Team ${teamName}`,
-            html: teamMemberEmailTemplate(member.fullName, teamLeaderName, teamName, domain)
+            subject: `HACKONX 2025 - You've Been Added to Team ${teamName}`,
+            html: teamMemberEmailTemplate(
+              member.fullName,
+              teamLeaderName,
+              teamName,
+              domain
+            ),
           };
 
           const info = await transporter.sendMail(mailOptions);
-          console.log(`Team member notification email sent to: ${member.email}`, info.messageId);
-          
+          console.log(
+            `Team member notification email sent to: ${member.email}`,
+            info.messageId
+          );
+
           return {
             success: true,
             email: member.email,
-            messageId: info.messageId
+            messageId: info.messageId,
           };
         } catch (error) {
-          console.error(`Error sending email to team member ${member.email}:`, error);
+          console.error(
+            `Error sending email to team member ${member.email}:`,
+            error
+          );
           return {
             success: false,
             email: member.email,
-            error: error.message
+            error: error.message,
           };
         }
       })
@@ -350,60 +395,74 @@ const sendTeamMemberRegistrationEmail = async (teamMembers, teamName, teamLeader
     // Return summary of results
     const summary = {
       total: results.length,
-      successful: results.filter(r => r.success).length,
-      failed: results.filter(r => !r.success).length,
-      details: results
+      successful: results.filter((r) => r.success).length,
+      failed: results.filter((r) => !r.success).length,
+      details: results,
     };
 
     return summary;
   } catch (error) {
-    console.error('Error sending team member registration emails:', error);
+    console.error("Error sending team member registration emails:", error);
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
 
-const sendHackathonStatusEmail = async (email, fullName, status, domain, remarks = '') => {
+const sendHackathonStatusEmail = async (
+  email,
+  fullName,
+  status,
+  domain,
+  remarks = ""
+) => {
   try {
     // Email content based on status
     let statusTitle, statusMessage, statusColor, ctaMessage;
 
     switch (status) {
-      case 'shortlisted':
-        statusTitle = 'Congratulations! You have Been Shortlisted';
-        statusMessage = 'We are pleased to inform you that your application for INNOVONX 2.0 2025 has been shortlisted. Your innovative approach and proposal have impressed our review panel.';
-        statusColor = '#28a745';
-        ctaMessage = 'Please keep an eye on your email for further instructions regarding the next steps. We look forward to seeing your project come to life!';
+      case "shortlisted":
+        statusTitle = "Congratulations! You have Been Shortlisted";
+        statusMessage =
+          "We are pleased to inform you that your application for HACKONX 2025 has been shortlisted. Your innovative approach and proposal have impressed our review panel.";
+        statusColor = "#28a745";
+        ctaMessage =
+          "Please keep an eye on your email for further instructions regarding the next steps. We look forward to seeing your project come to life!";
         break;
 
-      case 'under_review':
-        statusTitle = 'Your Application is Under Review';
-        statusMessage = 'We are currently reviewing your application and proposal. Our panel is evaluating all submissions carefully, and we will get back to you soon with a decision.';
-        statusColor = '#17a2b8';
-        ctaMessage = 'Thank you for your patience during this process. You can check your application status anytime through your dashboard.';
+      case "under_review":
+        statusTitle = "Your Application is Under Review";
+        statusMessage =
+          "We are currently reviewing your application and proposal. Our panel is evaluating all submissions carefully, and we will get back to you soon with a decision.";
+        statusColor = "#17a2b8";
+        ctaMessage =
+          "Thank you for your patience during this process. You can check your application status anytime through your dashboard.";
         break;
 
-      case 'rejected':
-        statusTitle = 'Application Status Update';
-        statusMessage = 'Thank you for your interest in INNOVONX 2.0 2025. After careful consideration, we regret to inform you that your application has not been selected to proceed to the next round.';
-        statusColor = '#dc3545';
-        ctaMessage = 'We received many strong applications this year, making the selection process very competitive. We encourage you to apply for future hackathons and events.';
+      case "rejected":
+        statusTitle = "Application Status Update";
+        statusMessage =
+          "Thank you for your interest in HACKONX 2025. After careful consideration, we regret to inform you that your application has not been selected to proceed to the next round.";
+        statusColor = "#dc3545";
+        ctaMessage =
+          "We received many strong applications this year, making the selection process very competitive. We encourage you to apply for future hackathons and events.";
         break;
 
       default:
-        statusTitle = 'Application Status Update';
-        statusMessage = 'There has been an update to your INNOVONX 2.0 2025 application status. Please check your dashboard for the latest information.';
-        statusColor = '#6c757d';
-        ctaMessage = 'If you have any questions, feel free to contact our support team.';
+        statusTitle = "Application Status Update";
+        statusMessage =
+          "There has been an update to your HACKONX 2025 application status. Please check your dashboard for the latest information.";
+        statusColor = "#6c757d";
+        ctaMessage =
+          "If you have any questions, feel free to contact our support team.";
     }
 
     // Create email template
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">INNOVONX 2.0 2025</h1>
+          <h1 style="color: #ffffff;">HACKONX 2025</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
@@ -419,8 +478,14 @@ const sendHackathonStatusEmail = async (email, fullName, status, domain, remarks
             <h3 style="margin-top: 0; color: #6b46c1;">Application Details</h3>
             <p><strong>College:</strong> DSATM Bangalore</p>
             <p><strong>Domain:</strong> ${domain}</p>
-            <p><strong>Status:</strong> ${status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>
-            ${remarks ? `<p><strong>Reviewer Remarks:</strong> ${remarks}</p>` : ''}
+            <p><strong>Status:</strong> ${status
+              .replace("_", " ")
+              .replace(/\b\w/g, (l) => l.toUpperCase())}</p>
+            ${
+              remarks
+                ? `<p><strong>Reviewer Remarks:</strong> ${remarks}</p>`
+                : ""
+            }
           </div>
           
           <p>${ctaMessage}</p>
@@ -436,33 +501,38 @@ const sendHackathonStatusEmail = async (email, fullName, status, domain, remarks
     `;
 
     const mailOptions = {
-      from: `INNOVONX 2.0 2025 <${process.env.EMAIL_USER}>`,
+      from: `HACKONX 2025 <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `INNOVONX 2.0 2025 - ${statusTitle}`,
-      html: emailTemplate
+      subject: `HACKONX 2025 - ${statusTitle}`,
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
     console.log(`Status update email sent to: ${email}`, info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending hackathon status email:', error);
+    console.error("Error sending hackathon status email:", error);
     return false;
   }
 };
 
-const sendHackathonProposalConfirmationEmail = async (email, participantName, teamName, submissionDate) => {
+const sendHackathonProposalConfirmationEmail = async (
+  email,
+  participantName,
+  teamName,
+  submissionDate
+) => {
   try {
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">INNOVONX 2.0 2025</h1>
+          <h1 style="color: #ffffff;">HACKONX 2025</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
           <p>Dear ${participantName},</p>
           
-          <p>Thank you for submitting your proposal for INNOVONX 2.0 2025! We're excited to confirm that your submission has been successfully received and is now under review by our panel of judges.</p>
+          <p>Thank you for submitting your proposal for HACKONX 2025! We're excited to confirm that your submission has been successfully received and is now under review by our panel of judges.</p>
           
           <div style="background-color: #e9ecef; padding: 15px; border-radius: 4px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #6b46c1;">Proposal Details:</h3>
@@ -502,7 +572,7 @@ const sendHackathonProposalConfirmationEmail = async (email, participantName, te
           
           <p>We'll notify you via email once the review of your proposal is complete. Make sure to check your inbox regularly, including your spam folder.</p>
           
-          <p>Thank you for your participation in INNOVONX 2.0 2025. We look forward to seeing how your innovative ideas develop throughout the hackathon!</p>
+          <p>Thank you for your participation in HACKONX 2025. We look forward to seeing how your innovative ideas develop throughout the hackathon!</p>
           
           <p style="margin-top: 20px;">Warm regards,<br>SkillonX Team ❤</p>
         </div>
@@ -515,33 +585,43 @@ const sendHackathonProposalConfirmationEmail = async (email, participantName, te
     `;
 
     const mailOptions = {
-      from: `INNOVONX 2.0 2025 <${process.env.EMAIL_USER}>`,
+      from: `HACKONX 2025 <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `INNOVONX 2.0 2025 - Proposal Submission Confirmation`,
-      html: emailTemplate
+      subject: `HACKONX 2025 - Proposal Submission Confirmation`,
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Proposal confirmation email sent to: ${email}`, info.messageId);
+    console.log(
+      `Proposal confirmation email sent to: ${email}`,
+      info.messageId
+    );
     return true;
   } catch (error) {
-    console.error('Error sending hackathon proposal confirmation email:', error);
+    console.error(
+      "Error sending hackathon proposal confirmation email:",
+      error
+    );
     return false;
   }
 };
 
-const sendHackathonProposalReminderEmail = async (email, participantName, deadline) => {
+const sendHackathonProposalReminderEmail = async (
+  email,
+  participantName,
+  deadline
+) => {
   try {
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">INNOVONX 2.0 2025</h1>
+          <h1 style="color: #ffffff;">HACKONX 2025</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
           <p>Dear ${participantName},</p>
           
-          <p>Thank you for registering for INNOVONX 2.0 2025! We noticed that you haven't submitted your project proposal yet. To continue with the hackathon, please follow the steps below to complete your submission.</p>
+          <p>Thank you for registering for HACKONX 2025! We noticed that you haven't submitted your project proposal yet. To continue with the hackathon, please follow the steps below to complete your submission.</p>
           
           <div style="background-color: #fff3cd; color: #856404; padding: 15px; border-radius: 4px; margin: 20px 0;">
             <h3 style="margin-top: 0;">How to Submit Your Proposal:</h3>
@@ -590,33 +670,39 @@ const sendHackathonProposalReminderEmail = async (email, participantName, deadli
     `;
 
     const mailOptions = {
-      from: `INNOVONX 2.0 2025 <${process.env.EMAIL_USER}>`,
+      from: `HACKONX 2025 <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `INNOVONX 2.0 2025 - Important: Submit Your Proposal`,
-      html: emailTemplate
+      subject: `HACKONX 2025 - Important: Submit Your Proposal`,
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
     console.log(`Proposal reminder email sent to: ${email}`, info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending hackathon proposal reminder email:', error);
+    console.error("Error sending hackathon proposal reminder email:", error);
     return false;
   }
 };
 
-const sendHackathonProposalAcceptanceEmail = async (email, participantName, teamName, domain, paymentDeadline) => {
+const sendHackathonProposalAcceptanceEmail = async (
+  email,
+  participantName,
+  teamName,
+  domain,
+  paymentDeadline
+) => {
   try {
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">INNOVONX 2.0 2025</h1>
+          <h1 style="color: #ffffff;">HACKONX 2025</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
           <p>Dear ${participantName},</p>
           
-          <p>We are delighted to inform you that your proposal for INNOVONX 2.0 2025 has been <strong>ACCEPTED</strong>!</p>
+          <p>We are delighted to inform you that your proposal for HACKONX 2025 has been <strong>ACCEPTED</strong>!</p>
           
           <p>Our panel of judges was impressed with your innovative concept, technical approach, and alignment with this year's hackathon themes. Congratulations on successfully clearing the first round of the selection process.</p>
           
@@ -663,7 +749,7 @@ const sendHackathonProposalAcceptanceEmail = async (email, participantName, team
             <li>WhatsApp No: +91 89716 11062</li>
           </ul>
           
-          <p>Once again, congratulations on your acceptance! We look forward to seeing your project come to life during INNOVONX 2.0 2025.</p>
+          <p>Once again, congratulations on your acceptance! We look forward to seeing your project come to life during HACKONX 2025.</p>
           
           <p style="margin-top: 20px;">Warm regards,<br>SkillonX Team ❤</p>
         </div>
@@ -676,36 +762,43 @@ const sendHackathonProposalAcceptanceEmail = async (email, participantName, team
     `;
 
     const mailOptions = {
-      from: `INNOVONX 2.0 2025 <${process.env.EMAIL_USER}>`,
+      from: `HACKONX 2025 <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `INNOVONX 2.0 2025 - Congratulations! Your Proposal Has Been Accepted`,
-      html: emailTemplate
+      subject: `HACKONX 2025 - Congratulations! Your Proposal Has Been Accepted`,
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
     console.log(`Proposal acceptance email sent to: ${email}`, info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending hackathon proposal acceptance email:', error);
+    console.error("Error sending hackathon proposal acceptance email:", error);
     return false;
   }
 };
-const sendPasswordResetEmail = async (email, resetToken, userType, fullName) => {
+const sendPasswordResetEmail = async (
+  email,
+  resetToken,
+  userType,
+  fullName
+) => {
   try {
-    const prodUrl = 'https://skillonx.com';
-    const baseUrl = 'http://localhost:5173'
+    const prodUrl = "https://skillonx.com";
+    const baseUrl = "http://localhost:5173";
     const resetUrl = `${prodUrl}/Innovonox/reset-password?token=${resetToken}&userType=${userType}`;
-    
+
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">INNOVONX 2.0 - Password Reset</h1>
+          <h1 style="color: #ffffff;">HACKONX - Password Reset</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
-          <p>Dear ${fullName || 'User'},</p>
+          <p>Dear ${fullName || "User"},</p>
           
-          <p>We received a request to reset your password for your INNOVONX ${userType === 'participant' ? 'Participant' : 'Organizer'} account. If you did not make this request, please ignore this email.</p>
+          <p>We received a request to reset your password for your HACKONX ${
+            userType === "participant" ? "Participant" : "Organizer"
+          } account. If you did not make this request, please ignore this email.</p>
           
           <div style="background-color: #e9ecef; padding: 15px; border-radius: 4px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #6b46c1;">Password Reset Instructions:</h3>
@@ -736,36 +829,42 @@ const sendPasswordResetEmail = async (email, resetToken, userType, fullName) => 
     `;
 
     const mailOptions = {
-      from: `INNOVONX Password Reset <${process.env.EMAIL_USER}>`,
+      from: `HACKONX Password Reset <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `INNOVONX 2.0 - Password Reset Request`,
-      html: emailTemplate
+      subject: `HACKONX - Password Reset Request`,
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
     console.log(`Password reset email sent to: ${email}`, info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending password reset email:', error);
+    console.error("Error sending password reset email:", error);
     return false;
   }
 };
-const sendPasswordResetConfirmationEmail = async (email, userType, fullName) => {
+const sendPasswordResetConfirmationEmail = async (
+  email,
+  userType,
+  fullName
+) => {
   try {
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">INNOVONX 2.0 - Password Updated</h1>
+          <h1 style="color: #ffffff;">HACKONX - Password Updated</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
-          <p>Dear ${fullName || 'User'},</p>
+          <p>Dear ${fullName || "User"},</p>
           
           <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin: 20px 0; text-align: center;">
             <h3 style="margin-top: 0; color: #155724;">Your Password Has Been Successfully Updated!</h3>
           </div>
           
-          <p>This email confirms that your password for your INNOVONX ${userType === 'participant' ? 'Participant' : 'Organizer'} account has been successfully changed.</p>
+          <p>This email confirms that your password for your HACKONX ${
+            userType === "participant" ? "Participant" : "Organizer"
+          } account has been successfully changed.</p>
           
           <p>You can now log in to your account using your new password.</p>
           
@@ -788,21 +887,28 @@ const sendPasswordResetConfirmationEmail = async (email, userType, fullName) => 
     `;
 
     const mailOptions = {
-      from: `INNOVONX Account Security <${process.env.EMAIL_USER}>`,
+      from: `HACKONX Account Security <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `INNOVONX 2.0 - Password Successfully Updated`,
-      html: emailTemplate
+      subject: `HACKONX - Password Successfully Updated`,
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Password reset confirmation email sent to: ${email}`, info.messageId);
+    console.log(
+      `Password reset confirmation email sent to: ${email}`,
+      info.messageId
+    );
     return true;
   } catch (error) {
-    console.error('Error sending password reset confirmation email:', error);
+    console.error("Error sending password reset confirmation email:", error);
     return false;
   }
 };
-const sendHackathonCreationEmail = async (email, organizerName, hackathonTitle) => {
+const sendHackathonCreationEmail = async (
+  email,
+  organizerName,
+  hackathonTitle
+) => {
   try {
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -846,24 +952,32 @@ const sendHackathonCreationEmail = async (email, organizerName, hackathonTitle) 
       from: `Skillonx <${process.env.EMAIL_USER}>`,
       to: email,
       subject: `Hackathon Submission Received: ${hackathonTitle}`,
-      html: emailTemplate
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
     console.log(`Hackathon creation email sent to: ${email}`, info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending hackathon creation email:', error);
+    console.error("Error sending hackathon creation email:", error);
     return false;
   }
 };
 
-const sendHackathonStatusUpdateEmail = async (email, organizerName, hackathonTitle, isApproved, adminRemarks) => {
+const sendHackathonStatusUpdateEmail = async (
+  email,
+  organizerName,
+  hackathonTitle,
+  isApproved,
+  adminRemarks
+) => {
   try {
     // Set variables based on approval status
-    const statusTitle = isApproved ? 'Hackathon Approved' : 'Hackathon Needs Revision';
-    const statusColor = isApproved ? '#28a745' : '#dc3545';
-    const statusMessage = isApproved 
+    const statusTitle = isApproved
+      ? "Hackathon Approved"
+      : "Hackathon Needs Revision";
+    const statusColor = isApproved ? "#28a745" : "#dc3545";
+    const statusMessage = isApproved
       ? `We're pleased to inform you that your hackathon <strong>${hackathonTitle}</strong> has been approved and is now live on our platform!`
       : `After reviewing your hackathon <strong>${hackathonTitle}</strong>, our admin team has determined that some revisions are needed before it can be approved.`;
 
@@ -881,7 +995,10 @@ const sendHackathonStatusUpdateEmail = async (email, organizerName, hackathonTit
       : `
         <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin: 20px 0;">
           <h3 style="margin-top: 0; color: #721c24;">Admin Feedback:</h3>
-          <p>${adminRemarks || 'No specific feedback was provided by the admin. Please review your hackathon details and ensure they meet our guidelines.'}</p>
+          <p>${
+            adminRemarks ||
+            "No specific feedback was provided by the admin. Please review your hackathon details and ensure they meet our guidelines."
+          }</p>
           <h4 style="margin-top: 15px; color: #721c24;">Next Steps:</h4>
           <ul>
             <li>Review the feedback provided above</li>
@@ -901,7 +1018,9 @@ const sendHackathonStatusUpdateEmail = async (email, organizerName, hackathonTit
           <p>Dear ${organizerName},</p>
           
           <div style="background-color: ${statusColor}; color: white; padding: 15px; border-radius: 4px; margin: 20px 0;">
-            <h2 style="margin-top: 0; color: white;">${isApproved ? 'Congratulations!' : 'Action Required'}</h2>
+            <h2 style="margin-top: 0; color: white;">${
+              isApproved ? "Congratulations!" : "Action Required"
+            }</h2>
           </div>
           
           <p>${statusMessage}</p>
@@ -924,14 +1043,17 @@ const sendHackathonStatusUpdateEmail = async (email, organizerName, hackathonTit
       from: `Skillonx <${process.env.EMAIL_USER}>`,
       to: email,
       subject: `${statusTitle}: ${hackathonTitle}`,
-      html: emailTemplate
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Hackathon status update email sent to: ${email}`, info.messageId);
+    console.log(
+      `Hackathon status update email sent to: ${email}`,
+      info.messageId
+    );
     return true;
   } catch (error) {
-    console.error('Error sending hackathon status update email:', error);
+    console.error("Error sending hackathon status update email:", error);
     return false;
   }
 };
@@ -979,23 +1101,33 @@ const sendOrganizerRegistrationEmail = async (email, organizerName) => {
       from: `Skillonx <${process.env.EMAIL_USER}>`,
       to: email,
       subject: `Welcome to Skillonx - Organizer Registration Received`,
-      html: emailTemplate
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Organizer registration email sent to: ${email}`, info.messageId);
+    console.log(
+      `Organizer registration email sent to: ${email}`,
+      info.messageId
+    );
     return true;
   } catch (error) {
-    console.error('Error sending organizer registration email:', error);
+    console.error("Error sending organizer registration email:", error);
     return false;
   }
 };
-const sendOrganizerVerificationEmail = async (email, organizerName, isApproved, adminRemarks = '') => {
+const sendOrganizerVerificationEmail = async (
+  email,
+  organizerName,
+  isApproved,
+  adminRemarks = ""
+) => {
   try {
     // Set variables based on approval status
-    const statusTitle = isApproved ? 'Organizer Account Approved!' : 'Organizer Account Verification Update';
-    const statusColor = isApproved ? '#28a745' : '#dc3545';
-    const statusMessage = isApproved 
+    const statusTitle = isApproved
+      ? "Organizer Account Approved!"
+      : "Organizer Account Verification Update";
+    const statusColor = isApproved ? "#28a745" : "#dc3545";
+    const statusMessage = isApproved
       ? `We're pleased to inform you that your Skillonx Organizer account has been approved! You can now log in and start creating hackathons and events on our platform.`
       : `Thank you for your interest in becoming an Organizer on Skillonx. After reviewing your application, we need to inform you that your account has not been approved at this time.`;
 
@@ -1014,7 +1146,10 @@ const sendOrganizerVerificationEmail = async (email, organizerName, isApproved, 
       : `
         <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin: 20px 0;">
           <h3 style="margin-top: 0; color: #721c24;">Feedback from our team:</h3>
-          <p>${adminRemarks || 'No specific feedback was provided by the admin. If you have questions about this decision, please contact our support team for more information.'}</p>
+          <p>${
+            adminRemarks ||
+            "No specific feedback was provided by the admin. If you have questions about this decision, please contact our support team for more information."
+          }</p>
           <h4 style="margin-top: 15px; color: #721c24;">Next Steps:</h4>
           <ul>
             <li>Review the feedback provided above</li>
@@ -1034,7 +1169,9 @@ const sendOrganizerVerificationEmail = async (email, organizerName, isApproved, 
           <p>Dear ${organizerName},</p>
           
           <div style="background-color: ${statusColor}; color: white; padding: 15px; border-radius: 4px; margin: 20px 0;">
-            <h2 style="margin-top: 0; color: white;">${isApproved ? 'Congratulations!' : 'Application Status Update'}</h2>
+            <h2 style="margin-top: 0; color: white;">${
+              isApproved ? "Congratulations!" : "Application Status Update"
+            }</h2>
           </div>
           
           <p>${statusMessage}</p>
@@ -1057,14 +1194,17 @@ const sendOrganizerVerificationEmail = async (email, organizerName, isApproved, 
       from: `Skillonx <${process.env.EMAIL_USER}>`,
       to: email,
       subject: `${statusTitle}`,
-      html: emailTemplate
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Organizer verification email sent to: ${email}`, info.messageId);
+    console.log(
+      `Organizer verification email sent to: ${email}`,
+      info.messageId
+    );
     return true;
   } catch (error) {
-    console.error('Error sending organizer verification email:', error);
+    console.error("Error sending organizer verification email:", error);
     return false;
   }
 };
@@ -1073,13 +1213,13 @@ const sendParticipantRegistrationEmail = async (email, fullName) => {
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #6b46c1; padding: 20px; text-align: center;">
-          <h1 style="color: #ffffff;">Welcome to INNOVONX 2.0!</h1>
+          <h1 style="color: #ffffff;">Welcome to HACKONX!</h1>
         </div>
         
         <div style="padding: 20px; background-color: #f9f9f9;">
           <p>Dear ${fullName},</p>
           
-          <p>Thank you for registering as a Participant on Skillonx INNOVONX 2.0! Your account has been successfully created, and you're now ready to explore and apply for hackathons on our platform.</p>
+          <p>Thank you for registering as a Participant on Skillonx HACKONX! Your account has been successfully created, and you're now ready to explore and apply for hackathons on our platform.</p>
           
           <div style="background-color: #e9ecef; padding: 15px; border-radius: 4px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #6b46c1;">What you can do now:</h3>
@@ -1114,22 +1254,32 @@ const sendParticipantRegistrationEmail = async (email, fullName) => {
     `;
 
     const mailOptions = {
-      from: `INNOVONX 2.0 <${process.env.EMAIL_USER}>`,
+      from: `HACKONX <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `Welcome to INNOVONX 2.0 - Registration Successful`,
-      html: emailTemplate
+      subject: `Welcome to HACKONX - Registration Successful`,
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Participant registration email sent to: ${email}`, info.messageId);
+    console.log(
+      `Participant registration email sent to: ${email}`,
+      info.messageId
+    );
     return true;
   } catch (error) {
-    console.error('Error sending participant registration email:', error);
+    console.error("Error sending participant registration email:", error);
     return false;
   }
 };
 
-const sendHackathonApplicationEmail = async (email, fullName, hackathonTitle, teamName, domain, hasProposal) => {
+const sendHackathonApplicationEmail = async (
+  email,
+  fullName,
+  hackathonTitle,
+  teamName,
+  domain,
+  hasProposal
+) => {
   try {
     const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -1147,25 +1297,31 @@ const sendHackathonApplicationEmail = async (email, fullName, hackathonTitle, te
             <ul>
               <li><strong>Hackathon:</strong> ${hackathonTitle}</li>
               <li><strong>Team Name:</strong> ${teamName}</li>
-              <li><strong>Domain:</strong> ${domain || 'Not specified'}</li>
+              <li><strong>Domain:</strong> ${domain || "Not specified"}</li>
               <li><strong>Application Status:</strong> Pending Review</li>
-              <li><strong>Proposal Status:</strong> ${hasProposal ? 'Submitted' : 'Not Yet Submitted'}</li>
+              <li><strong>Proposal Status:</strong> ${
+                hasProposal ? "Submitted" : "Not Yet Submitted"
+              }</li>
             </ul>
           </div>
           
-          ${!hasProposal ? `
+          ${
+            !hasProposal
+              ? `
           <div style="background-color: #fff3cd; color: #856404; padding: 15px; border-radius: 4px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #856404;">Important Next Step:</h3>
             <p>Your application is currently <strong>incomplete</strong>. Please log in to your dashboard and submit your project proposal as soon as possible. Applications without proposals may not be considered.</p>
             <p>The proposal should include your project idea, implementation plan, and how it addresses the hackathon's theme or problem statement.</p>
           </div>
-          ` : `
+          `
+              : `
           <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #155724;">What Happens Next?</h3>
             <p>Our review team will evaluate your application and proposal. You'll receive a notification once the review is complete, which typically takes 1-2 business days.</p>
             <p>If your application is approved, you'll receive further instructions regarding the hackathon schedule, resources, and next steps.</p>
           </div>
-          `}
+          `
+          }
           
           <p>You can check the status of your application anytime by logging into your dashboard. If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
           
@@ -1180,17 +1336,20 @@ const sendHackathonApplicationEmail = async (email, fullName, hackathonTitle, te
     `;
 
     const mailOptions = {
-      from: `INNOVONX 2.0 <${process.env.EMAIL_USER}>`,
+      from: `HACKONX <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `INNOVONX 2.0 - Application Received for ${hackathonTitle}`,
-      html: emailTemplate
+      subject: `HACKONX - Application Received for ${hackathonTitle}`,
+      html: emailTemplate,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Hackathon application email sent to: ${email}`, info.messageId);
+    console.log(
+      `Hackathon application email sent to: ${email}`,
+      info.messageId
+    );
     return true;
   } catch (error) {
-    console.error('Error sending hackathon application email:', error);
+    console.error("Error sending hackathon application email:", error);
     return false;
   }
 };
@@ -1212,5 +1371,5 @@ module.exports = {
   sendOrganizerRegistrationEmail,
   sendOrganizerVerificationEmail,
   sendParticipantRegistrationEmail,
-  sendHackathonApplicationEmail
+  sendHackathonApplicationEmail,
 };

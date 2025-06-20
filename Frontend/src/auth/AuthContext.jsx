@@ -57,17 +57,17 @@ export const AuthProvider = ({ children }) => {
         return '/student-dashboard';
       case 'university':
         return '/university-dashboard';
-      case 'hackathonUser':
+      case 'HackOnXUser':
         return '/hackathon-dashboard';
       case 'hackathonUser2':
         return '/hackathon-dashboard2';
-      case 'manageHackathon':
+      case 'HackOnXManager':
         return '/hackathon-manager';
       case 'manageHackathon2':
         return '/hackathon-manager2';
       case 'InnonvonoxAdmin':
         return '/innonvonox-admin'
-      case 'InnovvietJudge':
+      case 'HackOnXJudge':
         return '/judge'
       case 'Organizer':
         return '/innonvonox-organizer'
