@@ -19,7 +19,7 @@ app.use(
       "http://localhost:5173",
       "https://magnificent-bublanina-c141eb.netlify.app",
       "https://amazing-starburst-efa549.netlify.app",
-      "https://illustrious-jelly-cb5062.netlify.app/"
+      "https://illustrious-jelly-cb5062.netlify.app"
       
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
