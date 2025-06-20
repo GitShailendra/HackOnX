@@ -39,9 +39,8 @@ const HackathonDashboardTwo = () => {
   
   const paymentFileInputRef = useRef(null);
   const fileInputRef = useRef(null);
-  const devUrl = 'http://localhost:5000'
-  const prodUrl = "https://skillonx-server.onrender.com"
-
+  // const devUrl = 'http://localhost:5000'
+ const devUrl = "https://hackonx.onrender.com"
   useEffect(() => {
     const fetchParticipantDetails = async () => {
       try {

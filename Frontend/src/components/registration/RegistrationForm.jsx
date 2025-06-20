@@ -11,9 +11,9 @@ const RegistrationForm = () => {
 
   const [showProposalTemplate, setShowProposalTemplate] = useState(false);
 
-  const devUrl = 'http://localhost:5000'
-  const prodUrl = "https://skillonx-server.onrender.com"
-  const navigate = useNavigate();
+  // const devUrl = 'http://localhost:5000'
+ const devUrl = "https://hackonx.onrender.com"
+   const navigate = useNavigate();
   // Form state
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({

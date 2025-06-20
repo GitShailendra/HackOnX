@@ -12,9 +12,8 @@ const HackathonJudgeLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
-  const devUrl = 'http://localhost:5000';
-  const prodUrl = "https://skillonx-server.onrender.com";
-
+  // const devUrl = 'http://localhost:5000';
+ const devUrl = "https://hackonx.onrender.com"
   // Hide scrollbars and prevent overflow
   useEffect(() => {
     document.body.style.overflow = 'hidden';

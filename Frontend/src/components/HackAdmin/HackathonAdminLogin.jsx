@@ -13,8 +13,8 @@ const HackathonAdminLogin = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { login } = useAuth();
-  const devUrl = 'http://localhost:5000'
-  const prodUrl = "https://skillonx-server.onrender.com"
+  // const devUrl = 'http://localhost:5000'
+  const devUrl = "https://hackonx.onrender.com"
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({

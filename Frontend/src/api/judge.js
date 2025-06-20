@@ -1,5 +1,5 @@
-const API_DEV_URL = 'http://localhost:5000';
-const API_PROD_URL='https://skillonx-server.onrender.com'
+// const API_DEV_URL = 'http://localhost:5000';
+const API_DEV_URL='https://hackonx.onrender.com'
 import axios from "axios";
 export const getShortlisted = async () => {
   try {

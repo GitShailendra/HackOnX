@@ -22,8 +22,8 @@ const HackathonLoginPage = () => {
   const [showContactModal, setShowContactModal] = useState(false);
   
   const { login } = useAuth(); // Use the login function from auth context
-  const devUrl = 'http://localhost:5000';
-  const prodUrl = "https://skillonx-server.onrender.com";
+  // const devUrl = 'http://localhost:5000';
+   const devUrl = "https://hackonx.onrender.com"
   const navigate = useNavigate();
 
   useEffect(() => {

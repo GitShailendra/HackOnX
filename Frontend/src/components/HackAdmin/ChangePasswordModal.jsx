@@ -11,8 +11,8 @@ const ChangeParticipantPasswordModal = ({ isOpen, onClose, participant }) => {
   const [success, setSuccess] = useState(false);
   const { auth } = useAuth();
   
-  const devUrl = 'http://localhost:5000';
-  const prodUrl = "https://skillonx-server.onrender.com";
+  // const devUrl = 'http://localhost:5000';
+  const devUrl = "https://hackonx.onrender.com";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

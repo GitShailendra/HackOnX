@@ -75,9 +75,8 @@ const ManageHackathon = () => {
   const navigate = useNavigate();
 
   const domains = ['Artificial Intelligence', 'Web Development', 'Open Innovation'];
-  const devUrl = 'http://localhost:5000'
-  const prodUrl = "https://skillonx-server.onrender.com"
-  // Fetch applications
+  // const devUrl = 'http://localhost:5000'
+ const devUrl = "https://hackonx.onrender.com"  // Fetch applications
   useEffect(() => {
 
     const fetchApplications = async () => {
