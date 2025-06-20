@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 const HackathonParticipant = require("../models/HackathonParticipant");
 const ManageHackathon = require("../models/ManageHackathon");
-const HACKONXJudge = require("../models/HACKONXJudge");
+const HACKONXJudge = require("../models/HackOnXJudge");
 // Middleware for Student authentication
 
 // Combined middleware that checks for either student or university token
