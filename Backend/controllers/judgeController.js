@@ -4,7 +4,7 @@ const ManageHackathon = require("../models/ManageHackathon");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
-const HACKONXJudge = require("../models/HACKONXJudge");
+const HACKONXJudge = require("../models/HackOnXJudge");
 const {
   sendHackathonRegistrationEmail,
   sendHackathonStatusEmail,
