@@ -30,22 +30,22 @@ const HackathonAdminLogin = () => {
 
     try {
       const response = await axios.post(`${devUrl}/hackathon/admin-login`, formData);
-      const {token,user} = response.data;
-      const userData= {
+      const { token, user } = response.data;
+      const userData = {
         ...user,
-        userType:'HackOnXManager'
+        userType: 'HACKONXManager'
       }
       if (response.data.success) {
         // Store token and user info using Auth Context
-        login(token,userData);
-        
+        login(token, userData);
+
         // Redirect to management dashboard
         navigate('/hackathon-manager');
       } else {
         throw new Error(response.data.message || 'Login failed');
       }
     } catch (err) {
-      console.log('error is getting',err)
+      console.log('error is getting', err)
       setError(err.response?.data?.message || err.message || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
@@ -61,7 +61,7 @@ const HackathonAdminLogin = () => {
           const Icon = icons[i % icons.length];
           const size = Math.floor(Math.random() * 30) + 15;
           const opacity = (Math.floor(Math.random() * 3) + 1) * 0.05;
-          
+
           return (
             <div
               key={i}
@@ -73,16 +73,16 @@ const HackathonAdminLogin = () => {
                 animationDelay: `${Math.random() * 5}s`,
               }}
             >
-              <Icon 
-                size={size} 
-                className="text-white" 
-                style={{ opacity }} 
+              <Icon
+                size={size}
+                className="text-white"
+                style={{ opacity }}
               />
             </div>
           );
         })}
       </div>
-      
+
       {/* Main login card */}
       <div className="max-w-md w-full z-10">
         {/* Glass morphism card */}
@@ -100,7 +100,7 @@ const HackathonAdminLogin = () => {
                 Manage participants and applications
               </p>
             </div>
-            
+
             {/* Error message */}
             {error && (
               <div className="bg-red-900/30 backdrop-blur-sm border-l-4 border-red-500 p-4 mb-6 rounded">
@@ -110,7 +110,7 @@ const HackathonAdminLogin = () => {
                 </div>
               </div>
             )}
-            
+
             {/* Login form */}
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
@@ -139,7 +139,7 @@ const HackathonAdminLogin = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-purple-200 mb-1">
                     Password
@@ -173,10 +173,10 @@ const HackathonAdminLogin = () => {
                   disabled={isLoading}
                   className={`group relative w-full flex justify-center py-3 px-4 
                             border border-transparent text-sm font-medium rounded-lg text-white
-                            ${isLoading 
-                              ? 'bg-purple-600/50 cursor-not-allowed' 
-                              : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700'
-                            } 
+                            ${isLoading
+                      ? 'bg-purple-600/50 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700'
+                    } 
                             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500
                             transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99]`}
                 >
@@ -187,18 +187,18 @@ const HackathonAdminLogin = () => {
                 </button>
               </div>
             </form>
-            
+
             {/* Footer link */}
             <div className="mt-6 text-center">
-              <a 
-                href="/" 
+              <a
+                href="/"
                 className="text-sm text-purple-200 hover:text-white transition-colors duration-200"
               >
                 Return to home page
               </a>
             </div>
           </div>
-          
+
           {/* Bottom decorative bar */}
           <div className="h-1.5 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500"></div>
         </div>

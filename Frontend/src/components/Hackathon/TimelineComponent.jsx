@@ -37,7 +37,7 @@ const TimelineComponent = ({ data }) => {
 
   // Map status to colors and styles
   const getStatusStyles = (status) => {
-    switch(status) {
+    switch (status) {
       case 'completed':
         return {
           background: 'rgba(34, 197, 94, 0.2)',
@@ -85,7 +85,7 @@ const TimelineComponent = ({ data }) => {
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl font-bold mb-4 text-gray-800"
         >
-          HackOnX <span className="text-blue-600">Timeline</span>
+          HACKONX <span className="text-blue-600">Timeline</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -102,7 +102,7 @@ const TimelineComponent = ({ data }) => {
         {data.map((event, index) => {
           const styles = getStatusStyles(event.status);
           const EventIcon = getEventIcon(event.title);
-          
+
           return (
             <VerticalTimelineElement
               key={`${event.date}-${event.title}`}

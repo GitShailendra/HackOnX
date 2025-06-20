@@ -1,7 +1,7 @@
 // src/components/AboutSection.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, Code, Shield, Lightbulb, Award , Clock,Users} from 'lucide-react';
+import { Cpu, Code, Shield, Lightbulb, Award, Clock, Users } from 'lucide-react';
 
 const AboutSection = () => {
   const containerVariants = {
@@ -53,9 +53,9 @@ const AboutSection = () => {
     >
       {/* Header section */}
       <motion.div variants={itemVariants} className="text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">About HackOnX</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">About HACKONX</h2>
         <p className="text-gray-600 text-lg">
-          HackOnX is an exciting hackathon that brings together aspiring innovators, developers, and tech enthusiasts 
+          HACKONX is an exciting hackathon that brings together aspiring innovators, developers, and tech enthusiasts
           to collaborate and push the boundaries of technology.
         </p>
       </motion.div>
@@ -63,9 +63,9 @@ const AboutSection = () => {
       {/* Main description */}
       <motion.div variants={itemVariants} className="bg-blue-50 p-8 rounded-xl">
         <p className="text-gray-700 leading-relaxed">
-          Organized by the Electronics and Communication Department of Dayananda Sagar Academy of Technology and Management, 
-          this 8-hour coding marathon challenges participants in cutting-edge domains. With a grand prize pool of INR 50,000, 
-          the event fosters creativity, problem-solving, and teamwork. The hackathon culminates with a valedictory ceremony 
+          Organized by the Electronics and Communication Department of Dayananda Sagar Academy of Technology and Management,
+          this 8-hour coding marathon challenges participants in cutting-edge domains. With a grand prize pool of INR 50,000,
+          the event fosters creativity, problem-solving, and teamwork. The hackathon culminates with a valedictory ceremony
           featuring a cultural show, an award distribution, and a guest appearance, making it a celebration of talent and innovation.
         </p>
       </motion.div>

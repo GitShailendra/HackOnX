@@ -12,8 +12,8 @@ const RegistrationForm = () => {
   const [showProposalTemplate, setShowProposalTemplate] = useState(false);
 
   // const devUrl = 'http://localhost:5000'
- const devUrl = "https://hackonx.onrender.com"
-   const navigate = useNavigate();
+  const devUrl = "https://hackonx.onrender.com"
+  const navigate = useNavigate();
   // Form state
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -236,7 +236,7 @@ const RegistrationForm = () => {
       const { token, participant } = response.data
       const userData = {
         ...participant,
-        userType: 'HackOnXUser',
+        userType: 'HACKONXUser',
       };
       if (response.status === 201) {
         // Store token in localStorage
@@ -936,7 +936,7 @@ const RegistrationForm = () => {
   return (
     <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm p-8">
       <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-        Register for HackOnX 2025
+        Register for HACKONX 2025
       </h2>
 
       {/* Progress indicator */}

@@ -13,12 +13,12 @@ const HackathonJudgeLogin = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   // const devUrl = 'http://localhost:5000';
- const devUrl = "https://hackonx.onrender.com"
+  const devUrl = "https://hackonx.onrender.com"
   // Hide scrollbars and prevent overflow
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
-    
+
     // Cleanup when component unmounts
     return () => {
       document.body.style.overflow = 'auto';
@@ -55,9 +55,9 @@ const HackathonJudgeLogin = () => {
       const { token, user } = response.data;
       const userData = {
         ...user,
-        userType: 'HackOnXJudge'
+        userType: 'HACKONXJudge'
       };
-      
+
       console.log(response);
       if (response.data.success) {
         // Store token and user info using Auth Context
@@ -88,7 +88,7 @@ const HackathonJudgeLogin = () => {
         <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-        
+
         {/* Floating icons - Updated positioning to prevent overflow */}
         {[Shield, Users, Award, Zap].map((Icon, index) => (
           <div
@@ -120,7 +120,7 @@ const HackathonJudgeLogin = () => {
               Judge Portal
             </h1>
             <p className="text-blue-200/80 text-sm">
-              HackOnX • Evaluation Dashboard
+              HACKONX • Evaluation Dashboard
             </p>
           </div>
 

@@ -21,7 +21,7 @@ const RegistrationPage = () => {
 
           <div className="pt-6">
             <h5 className="text-lg font-normal mb-2">
-            HackOnX
+              HACKONX
             </h5>
             <h1 className="text-5xl sm:text-6xl font-bold">
               Registration
@@ -62,40 +62,40 @@ const RegistrationPage = () => {
           </ol>
         </div>
       </div>
-      
+
       {/* Contact Organizers Section */}
       <div className="max-w-4xl mx-auto px-4 mb-12">
         <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl p-8 text-white relative overflow-hidden shadow-xl">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full transform translate-x-1/3 -translate-y-1/3"></div>
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full transform -translate-x-1/2 translate-y-1/2"></div>
-          
+
           <h2 className="text-2xl font-bold mb-8 flex items-center">
             <Users className="w-6 h-6 mr-2" />
             Contact Organizers
           </h2>
-          
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 relative z-10">
             <ContactCard
-                            title="Coordinator 1"
-                            email="madan@skiilonx.net"
-                            icon={<Mail className="w-5 h-5" />}
-                          />
-                          
-                          
-            
-                          <ContactCard
-                            title="Coordinator 3"
-                            email="akashayk2524@gmail.com"
-                            icon={<Mail className="w-5 h-5" />}
-                          />
-            
-                          <ContactCard
-                            title="Mail Office"
-                            email="ateeqbeme07@gmail.com"
-                            icon={<Mail className="w-5 h-5" />}
-                          />
+              title="Coordinator 1"
+              email="madan@skiilonx.net"
+              icon={<Mail className="w-5 h-5" />}
+            />
+
+
+
+            <ContactCard
+              title="Coordinator 3"
+              email="akashayk2524@gmail.com"
+              icon={<Mail className="w-5 h-5" />}
+            />
+
+            <ContactCard
+              title="Mail Office"
+              email="ateeqbeme07@gmail.com"
+              icon={<Mail className="w-5 h-5" />}
+            />
           </div>
-          
+
           <div className="text-center mt-8 text-blue-100">
             <p>Have questions? Feel free to contact any of our organizers for assistance.</p>
           </div>
@@ -115,14 +115,14 @@ const RegistrationPage = () => {
             </div>
 
             <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
-            <h3 className="font-medium text-purple-800 mb-2">IOT & HARDWARE</h3>
-<p className="text-sm text-gray-600">
-  Building smart IoT systems and hardware-based solutions using sensors, microcontrollers, and real-time data processing for automation and connectivity.
-</p>
+              <h3 className="font-medium text-purple-800 mb-2">IOT & HARDWARE</h3>
+              <p className="text-sm text-gray-600">
+                Building smart IoT systems and hardware-based solutions using sensors, microcontrollers, and real-time data processing for automation and connectivity.
+              </p>
             </div>
 
             <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
-            <h3 className="font-medium text-green-800 mb-2">CYBERSECURITY & BLOCKCHAIN</h3>
+              <h3 className="font-medium text-green-800 mb-2">CYBERSECURITY & BLOCKCHAIN</h3>
               <p className="text-sm text-gray-600">
                 Developing secure digital solutions through encryption, network protection, and leveraging blockchain for decentralized and tamper-proof systems.
               </p>
@@ -149,9 +149,9 @@ const RegistrationPage = () => {
 // Contact Card Component
 const ContactCard = ({ title, email, icon }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   return (
-    <a 
+    <a
       href={`mailto:${email}`}
       className="bg-white/10 backdrop-blur-sm rounded-xl p-4 block w-full transform transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:shadow-lg"
       onMouseEnter={() => setIsHovered(true)}

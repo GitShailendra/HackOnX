@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('token');
       const user = localStorage.getItem('user');
-      
+
       if (token && user) {
         return { token, user: JSON.parse(user) };
       }
@@ -40,14 +40,14 @@ export const AuthProvider = ({ children }) => {
   const isHackathonUser = () => auth?.user?.userType === 'hackathonUser';
   const isHackathonUser2 = () => auth?.user?.userType === 'hackathonUser2';
   const isHackathonManager = () => auth?.user?.userType === 'manageHackathon';
-  const isInnonvonoxAdmin = () => auth?.user?.userType ==='InnonvonoxAdmin';
+  const isInnonvonoxAdmin = () => auth?.user?.userType === 'InnonvonoxAdmin';
   const isInnovvietJudge = () => auth?.user?.userType === 'InnovvietJudge';
   const isInnonvonxOrganizer = () => auth?.user?.userType === 'Organizer';
   const isInnonvonoxParticipant = () => auth?.user?.userType === 'Participant';
   const isHackathonManager2 = () => auth?.user?.userType === 'manageHackathon2';
   const isInnovonxJudgeTwo = () => auth?.user?.userType === 'InnovonxJudgeTwo';
-  const isInnonvonxJudgeOrganizer = () =>auth?.user?.userType==='InnonvonxJudge';
-  const isInnonvonxSponsor = () =>auth?.user?.userType === 'InnonvonoxSponsor'
+  const isInnonvonxJudgeOrganizer = () => auth?.user?.userType === 'InnonvonxJudge';
+  const isInnonvonxSponsor = () => auth?.user?.userType === 'InnonvonoxSponsor'
   // Get dashboard route based on user type
   const getDashboardRoute = () => {
     switch (auth?.user?.userType) {
@@ -57,17 +57,17 @@ export const AuthProvider = ({ children }) => {
         return '/student-dashboard';
       case 'university':
         return '/university-dashboard';
-      case 'HackOnXUser':
+      case 'HACKONXUser':
         return '/hackathon-dashboard';
       case 'hackathonUser2':
         return '/hackathon-dashboard2';
-      case 'HackOnXManager':
+      case 'HACKONXManager':
         return '/hackathon-manager';
       case 'manageHackathon2':
         return '/hackathon-manager2';
       case 'InnonvonoxAdmin':
         return '/innonvonox-admin'
-      case 'HackOnXJudge':
+      case 'HACKONXJudge':
         return '/judge'
       case 'Organizer':
         return '/innonvonox-organizer'
@@ -85,12 +85,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      auth, 
-      login, 
-      logout, 
-      isStudent, 
-      isUniversity, 
+    <AuthContext.Provider value={{
+      auth,
+      login,
+      logout,
+      isStudent,
+      isUniversity,
       isAdmin,
       isHackathonUser,
       isHackathonUser2,
@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }) => {
       isInnovonxJudgeTwo,
       isInnonvonxJudgeOrganizer,
       isInnonvonxSponsor,
-      getDashboardRoute 
+      getDashboardRoute
     }}>
       {children}
     </AuthContext.Provider>

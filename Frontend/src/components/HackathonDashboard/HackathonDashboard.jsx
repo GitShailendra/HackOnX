@@ -36,11 +36,11 @@ const HackathonDashboardTwo = () => {
   const [paymentFile, setPaymentFile] = useState(null);
   const [paymentUploadStatus, setPaymentUploadStatus] = useState({ loading: false, error: null, success: false });
   const [showProposalTemplate, setShowProposalTemplate] = useState(false);
-  
+
   const paymentFileInputRef = useRef(null);
   const fileInputRef = useRef(null);
   // const devUrl = 'http://localhost:5000'
- const devUrl = "https://hackonx.onrender.com"
+  const devUrl = "https://hackonx.onrender.com"
   useEffect(() => {
     const fetchParticipantDetails = async () => {
       try {
@@ -242,7 +242,7 @@ const HackathonDashboardTwo = () => {
 
   // Background floating icons component with inline styles
   const FloatingIcons = () => (
-    <div 
+    <div
       className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
       style={{
         background: 'linear-gradient(135deg, #581c87 0%, #7c3aed 50%, #3730a3 100%)'
@@ -407,7 +407,7 @@ const HackathonDashboardTwo = () => {
             <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-medium">Payment Details:</p>
-              <p>Account Name: HackOnX Hackathon</p>
+              <p>Account Name: HACKONX Hackathon</p>
               <p>Reference: {participant?.teamName || participant?.fullName}</p>
             </div>
           </div>
@@ -594,7 +594,7 @@ const HackathonDashboardTwo = () => {
             <div className="p-6 bg-gradient-to-r from-purple-900/50 to-indigo-900/50 backdrop-blur-md text-white flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-purple-500/30 rounded-t-2xl">
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-                  HackOnX
+                  HACKONX
                 </h1>
                 <p className="text-purple-200 text-lg">Participant Dashboard</p>
               </div>
@@ -761,7 +761,7 @@ const HackathonDashboardTwo = () => {
                 </div>
               </div>
 
-            {/* Application Timeline */}
+              {/* Application Timeline */}
               <div className="mt-8">
                 <h3 className="text-lg font-medium text-white mb-4 flex items-center">
                   <FileText className="w-5 h-5 mr-2 text-purple-300" />

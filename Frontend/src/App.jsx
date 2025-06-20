@@ -72,7 +72,7 @@ const Layout = ({ children }) => {
     location.pathname.startsWith('/student-dashboard') ||
     location.pathname.startsWith('/university-dashboard') ||
     location.pathname.startsWith('/admin') || location.pathname.startsWith('/hackathon-manager') || location.pathname.startsWith('/hackathon-dashboard') ||
-    location.pathname.startsWith('/innonvonox-admin') || location.pathname.startsWith('/innonvonox-organizer') || location.pathname.startsWith('/judge-dashboard') || location.pathname.startsWith('/judge/leaderboard') || location.pathname.startsWith('/innonvonox-participant') || location.pathname.startsWith('/hackathon-dashboard2') || location.pathname.startsWith('/hackathon-manager2')||location.pathname.startsWith('/innonvonox-judge')||location.pathname.startsWith('/innonvonx-sponsor')||location.pathname.startsWith('/innonvonx-marketing')
+    location.pathname.startsWith('/innonvonox-admin') || location.pathname.startsWith('/innonvonox-organizer') || location.pathname.startsWith('/judge-dashboard') || location.pathname.startsWith('/judge/leaderboard') || location.pathname.startsWith('/innonvonox-participant') || location.pathname.startsWith('/hackathon-dashboard2') || location.pathname.startsWith('/hackathon-manager2') || location.pathname.startsWith('/innonvonox-judge') || location.pathname.startsWith('/innonvonx-sponsor') || location.pathname.startsWith('/innonvonx-marketing')
   return (
     <>
       {!isDashboardRoute && <Navbar />}
@@ -89,35 +89,35 @@ const Layout = ({ children }) => {
 // Dashboard Layout Component
 const DashboardLayout = ({ children }) => {
   return (
-    
-      <div className="min-h-screen bg-gray-50">
-        {children}
-        <Toaster
-          position="top-right"
-          toastOptions={{
+
+    <div className="min-h-screen bg-gray-50">
+      {children}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
             duration: 3000,
-            style: {
-              background: '#363636',
-              color: '#fff',
+            theme: {
+              primary: '#4CAF50',
+              secondary: '#ffffff',
             },
-            success: {
-              duration: 3000,
-              theme: {
-                primary: '#4CAF50',
-                secondary: '#ffffff',
-              },
+          },
+          error: {
+            duration: 4000,
+            theme: {
+              primary: '#F44336',
+              secondary: '#ffffff',
             },
-            error: {
-              duration: 4000,
-              theme: {
-                primary: '#F44336',
-                secondary: '#ffffff',
-              },
-            },
-          }}
-        />
-      </div>
-  
+          },
+        }}
+      />
+    </div>
+
   );
 };
 const JudgingLayout = ({ children }) => {
@@ -166,64 +166,64 @@ const App = () => {
           <Route path="/hackathon-manager-login" element={<HackathonAdminLogin />} />
           {/* <Route path="/Hackathon-login" element={<LoginPagehack />} /> */}
           <Route path='/new-participant-login' element={<HackathonLoginPage />} />
-          
+
 
 
           {/* Routes with Layout */}On
           <Route path="/*" element={
             // <Layout>
-              <Suspense fallback={<LoadingSpinner />}>
-                <Routes>
-                  
-                  <Route path="/judge/login" element={<HackathonJudgeLogin />} />
-                  <Route path="/judge/leaderboard" element={<JudgeLeaderboard />} />
-      
-                  {/* Hackathon Dashboard Routes */}
-                  <Route
-                    path="/hackathon-dashboard/*"
-                    element={
-                      <ProtectedRoute allowedUserTypes={['HackOnXUser']}>
-                        <DashboardLayout>
-                          <Routes>
-                            <Route index element={<HackathonDashboard />} />
-                            {/* Add other hackathon user routes here if needed */}
-                          </Routes>
-                        </DashboardLayout>
-                      </ProtectedRoute>
-                    }
-                  />
-                  
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
 
-                  <Route
-                    path="/hackathon-manager"
-                    element={
-                      <ProtectedRoute allowedUserTypes={['HackOnXManager']}>
-                        <DashboardLayout>
-                          <ManageHackathon />
-                        </DashboardLayout>
-                      </ProtectedRoute>
-                    }
-                  />
-                  
+                <Route path="/judge/login" element={<HackathonJudgeLogin />} />
+                <Route path="/judge/leaderboard" element={<JudgeLeaderboard />} />
 
-                  <Route
-                    path="/judge-dashboard/*"
-                    element={
-                      <ProtectedRoute allowedUserTypes={['HackOnXJudge']}>
-                        <JudgingLayout>
-                          <Routes>
-                            <Route index element={<RatingPanel />} />
-                            <Route path="rating" element={<RatingPanel />} />
-                            <Route path="leaderboard" element={<Leaderboard />} />
-                          </Routes>
-                        </JudgingLayout>
-                      </ProtectedRoute>
-                    }
-                  />
-                  
-                  {/* <Route path="*" element={<NotFound />} /> */}
-                </Routes>
-              </Suspense>
+                {/* Hackathon Dashboard Routes */}
+                <Route
+                  path="/hackathon-dashboard/*"
+                  element={
+                    <ProtectedRoute allowedUserTypes={['HACKONXUser']}>
+                      <DashboardLayout>
+                        <Routes>
+                          <Route index element={<HackathonDashboard />} />
+                          {/* Add other hackathon user routes here if needed */}
+                        </Routes>
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+
+
+                <Route
+                  path="/hackathon-manager"
+                  element={
+                    <ProtectedRoute allowedUserTypes={['HACKONXManager']}>
+                      <DashboardLayout>
+                        <ManageHackathon />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+
+
+                <Route
+                  path="/judge-dashboard/*"
+                  element={
+                    <ProtectedRoute allowedUserTypes={['HACKONXJudge']}>
+                      <JudgingLayout>
+                        <Routes>
+                          <Route index element={<RatingPanel />} />
+                          <Route path="rating" element={<RatingPanel />} />
+                          <Route path="leaderboard" element={<Leaderboard />} />
+                        </Routes>
+                      </JudgingLayout>
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* <Route path="*" element={<NotFound />} /> */}
+              </Routes>
+            </Suspense>
             // </Layout>
           } />
         </Routes>

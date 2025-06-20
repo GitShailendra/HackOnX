@@ -29,12 +29,12 @@ const FAQSection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitStatus('success');
-      
+
       // Reset form after successful submission
       setTimeout(() => {
         setFormData({
@@ -50,8 +50,8 @@ const FAQSection = () => {
 
   const faqs = [
     {
-      question: "Who can participate in HackOnX",
-      answer: "HackOnX is open to Engineering Students, MBA Students, Postgraduate and Undergraduate students who are passionate about AI and ML technologies. Professionals with an interest in technology innovation are also welcome to apply."
+      question: "Who can participate in HACKONX",
+      answer: "HACKONX is open to Engineering Students, MBA Students, Postgraduate and Undergraduate students who are passionate about AI and ML technologies. Professionals with an interest in technology innovation are also welcome to apply."
     },
     {
       question: "How can I register for the event?",
@@ -101,7 +101,7 @@ const FAQSection = () => {
       animate="visible"
       className="max-w-4xl mx-auto px-4 pb-16"
     >
-      <motion.h2 
+      <motion.h2
         variants={itemVariants}
         className="text-3xl font-bold text-center text-gray-800 mb-8"
       >
@@ -133,7 +133,7 @@ const FAQSection = () => {
                 )}
               </motion.div>
             </motion.button>
-            
+
             <AnimatePresence>
               {activeIndex === index && (
                 <motion.div
@@ -159,23 +159,23 @@ const FAQSection = () => {
         className="mt-16 rounded-xl overflow-hidden shadow-xl"
       >
         <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-8 text-white">
-          <motion.h3 
+          <motion.h3
             className="text-2xl font-bold mb-4 text-center"
             variants={itemVariants}
           >
             Didn't find what you're looking for?
           </motion.h3>
-          
-          <motion.p 
+
+          <motion.p
             className="text-center mb-6 text-blue-100 max-w-2xl mx-auto"
             variants={itemVariants}
           >
-            Our team is ready to assist you with any queries about HackOnX. Fill out the form below and we'll get back to you as soon as possible.
+            Our team is ready to assist you with any queries about HACKONX. Fill out the form below and we'll get back to you as soon as possible.
           </motion.p>
         </div>
-        
+
         <div className="bg-white p-8">
-          <motion.form 
+          <motion.form
             onSubmit={handleSubmit}
             className="space-y-6"
             variants={containerVariants}
@@ -200,7 +200,7 @@ const FAQSection = () => {
                   />
                 </div>
               </motion.div>
-              
+
               {/* Email Field */}
               <motion.div variants={itemVariants} className="relative">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
@@ -220,7 +220,7 @@ const FAQSection = () => {
                   />
                 </div>
               </motion.div>
-              
+
               {/* Phone Field */}
               <motion.div variants={itemVariants} className="relative">
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
@@ -239,7 +239,7 @@ const FAQSection = () => {
                   />
                 </div>
               </motion.div>
-              
+
               {/* Message Field */}
               <motion.div variants={itemVariants} className="relative md:col-span-2">
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Your Message</label>
@@ -259,9 +259,9 @@ const FAQSection = () => {
                 </div>
               </motion.div>
             </div>
-            
+
             {/* Submit Button */}
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex justify-center"
             >
@@ -288,7 +288,7 @@ const FAQSection = () => {
                 )}
               </motion.button>
             </motion.div>
-            
+
             {/* Success Message */}
             <AnimatePresence>
               {submitStatus === 'success' && (
@@ -303,9 +303,9 @@ const FAQSection = () => {
               )}
             </AnimatePresence>
           </motion.form>
-          
+
           {/* Coordinator Contact Information */}
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             className="mt-12 pt-8 border-t border-gray-200"
           >
@@ -315,8 +315,8 @@ const FAQSection = () => {
             >
               Or contact our coordinators directly
             </motion.h4>
-            
-            <motion.div 
+
+            <motion.div
               className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6"
               variants={containerVariants}
             >
@@ -325,8 +325,8 @@ const FAQSection = () => {
                 email="madan@skiilonx.net"
                 icon={<Mail className="w-5 h-5" />}
               />
-              
-              
+
+
 
               <ContactCard
                 title="Coordinator 3"
@@ -353,14 +353,14 @@ const ContactCard = ({ title, email, icon }) => {
     <motion.a
       href={`mailto:${email}`}
       className="bg-gray-50 rounded-xl p-4 block w-full border border-gray-100"
-      whileHover={{ 
-        scale: 1.03, 
+      whileHover={{
+        scale: 1.03,
         backgroundColor: "rgba(239, 246, 255, 1)",
-        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02)" 
+        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02)"
       }}
     >
       <div className="flex items-start space-x-4">
-        <motion.div 
+        <motion.div
           className="p-3 rounded-full bg-blue-100 text-blue-600"
           whileHover={{ backgroundColor: "#3b82f6", color: "#ffffff" }}
         >
@@ -371,7 +371,7 @@ const ContactCard = ({ title, email, icon }) => {
           <p className="text-gray-500 truncate overflow-hidden text-sm">
             {email}
           </p>
-          <motion.div 
+          <motion.div
             className="mt-2 flex items-center text-sm text-blue-600 opacity-0"
             whileHover={{ opacity: 1 }}
           >

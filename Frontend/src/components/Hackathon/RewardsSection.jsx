@@ -4,14 +4,14 @@ import { motion } from 'framer-motion';
 import { Trophy, Gift, Award, Star, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 const RewardsSection = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
-    useEffect(() => {
-      const handleScroll = () => {
-        setIsScrolled(window.scrollY > 50);
-      };
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -93,7 +93,7 @@ const RewardsSection = () => {
         viewport={{ once: true, amount: 0.2 }}
         className="max-w-6xl mx-auto px-4"
       >
-        <motion.h2 
+        <motion.h2
           variants={itemVariants}
           className="text-3xl font-bold text-center text-gray-800 mb-12"
         >
@@ -101,7 +101,7 @@ const RewardsSection = () => {
         </motion.h2>
 
         {/* Main Prizes */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
         >
@@ -121,7 +121,7 @@ const RewardsSection = () => {
                 <h3 className="text-xl font-bold text-white mt-6">{prize.position}</h3>
                 <div className="text-3xl font-bold text-white mt-2 mb-2">{prize.amount}</div>
               </div>
-              
+
               {/* Prize Details */}
               <div className="p-6">
                 <ul className="space-y-3">
@@ -144,7 +144,7 @@ const RewardsSection = () => {
           </h3>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
@@ -155,7 +155,7 @@ const RewardsSection = () => {
               whileHover={{ scale: 1.05 }}
               className="bg-white p-6 rounded-xl shadow-sm text-center"
             >
-              <motion.div 
+              <motion.div
                 className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4"
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.5 }}
@@ -174,18 +174,18 @@ const RewardsSection = () => {
           className="mt-16 text-center"
         >
           <p className="text-gray-600 mb-6">
-            Join HackOnX and compete for these exciting prizes and opportunities!
+            Join HACKONX and compete for these exciting prizes and opportunities!
           </p>
           <Link
-                        to="/register"
-                        className={`px-6 py-2 rounded-full font-medium transition-all ${isScrolled
-                            ? 'bg-blue-600 text-white hover:bg-blue-700'
-                            : 'bg-transparent'
-                          }`}
-                        style={{ opacity: isScrolled ? 1 : 0 }}
-                      >
-                        Register Now
-                      </Link>
+            to="/register"
+            className={`px-6 py-2 rounded-full font-medium transition-all ${isScrolled
+              ? 'bg-blue-600 text-white hover:bg-blue-700'
+              : 'bg-transparent'
+              }`}
+            style={{ opacity: isScrolled ? 1 : 0 }}
+          >
+            Register Now
+          </Link>
         </motion.div>
       </motion.div>
     </div>

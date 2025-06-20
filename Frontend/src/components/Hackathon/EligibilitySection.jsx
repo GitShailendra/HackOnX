@@ -72,14 +72,14 @@ const EligibilitySection = () => {
       animate="visible"
       className="max-w-4xl mx-auto px-4"
     >
-      <motion.h2 
+      <motion.h2
         variants={itemVariants}
         className="text-3xl font-bold text-center text-gray-800 mb-8"
       >
         Who Can Participate?
       </motion.h2>
 
-      <motion.div 
+      <motion.div
         variants={containerVariants}
         className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
       >
@@ -134,7 +134,7 @@ const EligibilitySection = () => {
           ))}
         </div>
       </motion.div>
-      
+
       {/* <motion.div
         variants={itemVariants}
         className="mt-8 bg-blue-50 rounded-xl p-6 text-center"
@@ -143,7 +143,7 @@ const EligibilitySection = () => {
           Registration Process
         </h3>
         <p className="text-gray-600">
-          Registration is now closed. Thank you for your interest in HackOnX 2.0.
+          Registration is now closed. Thank you for your interest in HACKONX 2.0.
         </p>
       </motion.div> */}
     </motion.div>

@@ -132,7 +132,7 @@ const HackathonPage = () => {
                   {tab.label}
                 </button>
               ))}
-              
+
             </div>
 
             {/* Right side with register and login buttons */}
@@ -242,7 +242,7 @@ const HackathonPage = () => {
               DSATM Bangalore Presents
             </h5>
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
-              HackOnX
+              HACKONX
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-8">
               8 HOUR Hackathon with INR 50,000/- Prize pool
@@ -363,7 +363,7 @@ const HackathonPage = () => {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Amazing Rewards</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Showcase your talent and win fantastic prizes at HackOnX
+                Showcase your talent and win fantastic prizes at HACKONX
               </p>
             </div>
             <RewardsSection />
@@ -390,7 +390,7 @@ const HackathonPage = () => {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center">
-              <h2 className="text-4xl font-bold text-white mb-8">Ready to Innovate at HackOnX</h2>
+              <h2 className="text-4xl font-bold text-white mb-8">Ready to Innovate at HACKONX</h2>
               <p className="text-xl text-blue-100 mb-12 max-w-3xl mx-auto">
                 Join the premier AI & ML hackathon at VVIET Karnataka and showcase your talent to industry leaders
               </p>
@@ -418,7 +418,7 @@ const HackathonPage = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div>
-                <h3 className="text-xl font-semibold mb-6">HackOnX</h3>
+                <h3 className="text-xl font-semibold mb-6">HACKONX</h3>
                 <p className="text-gray-400 mb-6">
                   The premier AI & ML Hackathon at DSATM Bangalore.
                 </p>
@@ -472,13 +472,13 @@ const HackathonPage = () => {
                 <ul className="space-y-4">
                   <ContactLink email="Madan@skillonx.net" name="Coordinator 1" />
                   <ContactLink email="ateeqbeme07@gmail.com" name="Faculty Coordinator" />
-                  
+
                 </ul>
               </div>
             </div>
 
             <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
-              <p>© 2025 HackOnX Hackathon. All rights reserved.</p>
+              <p>© 2025 HACKONX Hackathon. All rights reserved.</p>
             </div>
           </div>
         </footer>

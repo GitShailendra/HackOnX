@@ -20,10 +20,10 @@ const HackathonLoginPage = () => {
     error: null
   });
   const [showContactModal, setShowContactModal] = useState(false);
-  
+
   const { login } = useAuth(); // Use the login function from auth context
   // const devUrl = 'http://localhost:5000';
-   const devUrl = "https://hackonx.onrender.com"
+  const devUrl = "https://hackonx.onrender.com"
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,13 +56,13 @@ const HackathonLoginPage = () => {
         email: loginData.email,
         password: loginData.password
       });
-      
+
       const { token, participant } = response.data;
       const userData = {
         ...participant,
-        userType: 'HackOnXUser'
+        userType: 'HACKONXUser'
       };
-      
+
       if (response.status === 200) {
         // Store token in localStorage and set user in context
         login(token, userData);
@@ -104,8 +104,8 @@ const HackathonLoginPage = () => {
               <Link
                 to="/register"
                 className={`px-6 py-2.5 rounded-full font-medium transition-all text-sm ${isScrolled
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg hover:from-blue-700 hover:to-purple-700'
-                    : 'bg-white text-blue-700 hover:bg-blue-50'
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg hover:from-blue-700 hover:to-purple-700'
+                  : 'bg-white text-blue-700 hover:bg-blue-50'
                   }`}
               >
                 Register Now <ArrowRight className="w-4 h-4 inline ml-1" />
@@ -178,7 +178,7 @@ const HackathonLoginPage = () => {
           <div className="backdrop-blur-xl bg-white/20 p-8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/30">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-              <p className="text-blue-100">Sign in to your HackOnX account</p>
+              <p className="text-blue-100">Sign in to your HACKONX account</p>
             </div>
 
             {/* Show error message if there is one */}
@@ -248,7 +248,7 @@ const HackathonLoginPage = () => {
 
               <div className="flex items-center justify-between">
                 <div className="text-sm">
-                  <button 
+                  <button
                     onClick={() => setShowContactModal(true)}
                     className="font-medium text-blue-100 hover:text-white focus:outline-none"
                   >
@@ -300,47 +300,47 @@ const HackathonLoginPage = () => {
       {/* Contact Coordinators Modal */}
       {showContactModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50 px-4">
-          <div 
+          <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowContactModal(false)}
           ></div>
-          
+
           <div className="bg-blue-600 rounded-2xl p-8 w-full max-w-xl relative z-10 shadow-2xl">
-            <button 
+            <button
               onClick={() => setShowContactModal(false)}
               className="absolute top-4 right-4 text-white/80 hover:text-white"
             >
               <X className="w-6 h-6" />
             </button>
-            
+
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-white mb-4">
                 Didn't find what you're looking for?
               </h2>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <ContactCard
-                              title="Coordinator 1"
-                              email="madan@skiilonx.net"
-                              icon={<Mail className="w-5 h-5" />}
-                            />
-                          
-                            <ContactCard
-                              title="Coordinator 3"
-                              email="akashayk2524@gmail.com"
-                              icon={<Mail className="w-5 h-5" />}
-                            />
-              
-                            <ContactCard
-                              title="Mail Office"
-                              email="ateeqbeme07@gmail.com"
-                              icon={<Mail className="w-5 h-5" />}
-                            />
+                title="Coordinator 1"
+                email="madan@skiilonx.net"
+                icon={<Mail className="w-5 h-5" />}
+              />
+
+              <ContactCard
+                title="Coordinator 3"
+                email="akashayk2524@gmail.com"
+                icon={<Mail className="w-5 h-5" />}
+              />
+
+              <ContactCard
+                title="Mail Office"
+                email="ateeqbeme07@gmail.com"
+                icon={<Mail className="w-5 h-5" />}
+              />
             </div>
-            
+
             <p className="text-center text-blue-100 mt-8">
-              Our team is ready to assist you with any queries about HackOnX.
+              Our team is ready to assist you with any queries about HACKONX.
             </p>
           </div>
         </div>
@@ -351,8 +351,8 @@ const HackathonLoginPage = () => {
 
 // Contact Card Component
 const ContactCard = ({ icon, title, email }) => (
-  <a 
-    href={`mailto:${email}`} 
+  <a
+    href={`mailto:${email}`}
     className="bg-blue-500/30 backdrop-blur-sm rounded-lg p-5 transition-transform hover:scale-105 block"
   >
     <div className="flex flex-col items-center text-center">

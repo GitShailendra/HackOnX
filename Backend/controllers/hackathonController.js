@@ -153,7 +153,7 @@ module.exports.register = async (req, res) => {
       proposalFile: proposalFileData,
       isProposal: !!proposalFileData,
       applicationStatus: applicationStatus,
-      userType: "HackOnXUser",
+      userType: "HACKONXUser",
     });
 
     // Save to database
@@ -411,7 +411,7 @@ module.exports.createAdminHackathon = async (req, res) => {
 
     // Check if admin already exists
     const existingManageAdmin = await ManageHackathon.findOne({
-      role: "HackOnXManager",
+      role: "HACKONXManager",
     });
     if (existingManageAdmin) {
       console.log("existingManageAdmin already exists");
@@ -429,7 +429,7 @@ module.exports.createAdminHackathon = async (req, res) => {
     const manageAdmin = new ManageHackathon({
       email,
       password: hashedPassword,
-      role: "HackOnXManager",
+      role: "HACKONXManager",
     });
 
     await manageAdmin.save();
@@ -473,7 +473,7 @@ module.exports.adminLogin = async (req, res) => {
 
     // Create token
     const token = jwt.sign(
-      { id: manageAdmin._id, role: "HackOnXManager" },
+      { id: manageAdmin._id, role: "HACKONXManager" },
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
@@ -484,7 +484,7 @@ module.exports.adminLogin = async (req, res) => {
       user: {
         id: manageAdmin._id,
         email: manageAdmin.email,
-        role: "HackOnXManager",
+        role: "HACKONXManager",
       },
     });
   } catch (error) {
