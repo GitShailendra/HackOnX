@@ -49,10 +49,10 @@ const RegistrationForm = () => {
   // Domains available for selection
   const domains = [
     'AI & ML',
-    'IOT & Hardware',
-    'Wev Dev',
-    'CYBERSECURITY & BLOCKCAHIN',
-    'Web3',
+    'IOT & HARDWARE',
+    'WEB DEV',
+    'CYBERSECURITY & BLOCKCHAIN',
+    'WEB3',
     'OPEN DOMAIN'
   ];
 
