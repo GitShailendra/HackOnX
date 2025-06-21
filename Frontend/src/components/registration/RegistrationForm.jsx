@@ -5,6 +5,7 @@ import { useAuth } from "../../auth/AuthContext";
 
 import { useNavigate, Link } from 'react-router-dom';
 import ProposalTemplateModal from './ProposalTemplateModal'
+
 const RegistrationForm = () => {
   // Display state
   const { login } = useAuth()
@@ -14,6 +15,7 @@ const RegistrationForm = () => {
   // const devUrl = 'http://localhost:5000'
   const devUrl = "https://hackonx.onrender.com"
   const navigate = useNavigate();
+  
   // Form state
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -27,13 +29,19 @@ const RegistrationForm = () => {
     contactNumber: '',
     institution: '',
     idCard: null,
-    tShirtSize: '', // Added t-shirt size for team lead
+    tShirtSize: '',
 
-    // Team information
-    teamType: 'individual', // individual or team
+    // Team information - Only team participation allowed
+    teamType: 'team', // Always team
     teamName: '',
-    memberCount: 1,
-    teamMembers: [], // Array to store team members' details
+    memberCount: 4, // Fixed at 4
+    teamMembers: Array(3).fill().map(() => ({
+      fullName: '',
+      email: '',
+      contactNumber: '',
+      institution: '',
+      tShirtSize: ''
+    })), // Initialize with 3 empty team members
 
     // Proposal information
     domain: '',
@@ -75,33 +83,6 @@ const RegistrationForm = () => {
         ...formData,
         [name]: files[0]
       });
-    } else if (name === 'memberCount' && formData.teamType === 'team') {
-      // Handle member count change for team
-      const newCount = parseInt(value, 10);
-      const currentMembers = [...formData.teamMembers];
-      const newMembersArray = [];
-
-      // Preserve existing member data if decreasing
-      for (let i = 0; i < newCount - 1; i++) {
-        if (i < currentMembers.length) {
-          newMembersArray.push(currentMembers[i]);
-        } else {
-          // Add new empty member object if increasing
-          newMembersArray.push({
-            fullName: '',
-            email: '',
-            contactNumber: '',
-            institution: '',
-            tShirtSize: ''
-          });
-        }
-      }
-
-      setFormData({
-        ...formData,
-        memberCount: newCount,
-        teamMembers: newMembersArray
-      });
     } else {
       setFormData({
         ...formData,
@@ -109,6 +90,7 @@ const RegistrationForm = () => {
       });
     }
   };
+
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -119,42 +101,11 @@ const RegistrationForm = () => {
     const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
     return cleanPhone.length === 10 && /^\d+$/.test(cleanPhone);
   };
+  
   const isValidName = (name) => {
     const nameRegex = /^[A-Za-z\s\-'\.]+$/;
     // Name should be at least 2 characters long
     return name.length >= 3 && nameRegex.test(name);
-  };
-
-  // Handle team type selection
-  const handleTeamTypeChange = (type) => {
-    if (type === 'team') {
-      // Initialize team members array with empty objects based on member count
-      // Force memberCount to be 2 initially when switching to team
-      const membersCount = 2;
-      const initialTeamMembers = Array(membersCount - 1).fill().map(() => ({
-        fullName: '',
-        email: '',
-        contactNumber: '',
-        institution: '',
-        tShirtSize: ''
-      }));
-
-      setFormData({
-        ...formData,
-        teamType: type,
-        teamName: formData.teamName || '',
-        memberCount: membersCount,
-        teamMembers: initialTeamMembers
-      });
-    } else {
-
-      setFormData({
-        ...formData,
-        teamType: type,
-        memberCount: 1,
-        teamMembers: []
-      });
-    }
   };
 
   // Handle team member input changes
@@ -198,17 +149,13 @@ const RegistrationForm = () => {
     formDataToSubmit.append('institution', formData.institution);
     formDataToSubmit.append('tShirtSize', formData.tShirtSize);
     formDataToSubmit.append('teamType', formData.teamType);
-    formDataToSubmit.append('teamName', formData.teamName); // Always submit team name
+    formDataToSubmit.append('teamName', formData.teamName);
     formDataToSubmit.append('domain', formData.domain);
     formDataToSubmit.append('heardAboutUs', formData.heardAboutUs);
-    // Append team-related fields if applicable
-    if (formData.teamType === 'team') {
-      formDataToSubmit.append('teamName', formData.teamName);
-      formDataToSubmit.append('memberCount', formData.memberCount);
-
-      // Append team members data as JSON string
-      formDataToSubmit.append('teamMembers', JSON.stringify(formData.teamMembers));
-    }
+    formDataToSubmit.append('memberCount', formData.memberCount);
+    
+    // Append team members data as JSON string
+    formDataToSubmit.append('teamMembers', JSON.stringify(formData.teamMembers));
 
     // Append files
     if (formData.idCard) {
@@ -242,11 +189,6 @@ const RegistrationForm = () => {
         // Store token in localStorage
         login(token, userData)
         navigate('/hackathon-dashboard')
-        // Redirect to dashboard or show success message
-        // window.location.href = '/hackathon-dashboard';
-
-        // Redirect to dashboard or show success message
-        // window.location.href = '/dashboard'; // Replace with your dashboard route
       } else {
         throw new Error('Login failed');
       }
@@ -493,36 +435,14 @@ const RegistrationForm = () => {
   const renderTeamInfoStep = () => (
     <div className="space-y-6">
       <h3 className="text-xl font-semibold text-gray-800 mb-4">Team Information</h3>
-      <p className="text-gray-600 mb-6">Either register individually or create/join a team.</p>
+      <p className="text-gray-600 mb-6">All participants must form teams of exactly 4 members.</p>
 
       <div className="space-y-4">
-        <div>
-          <span className="block text-sm font-medium text-gray-700 mb-2">
-            Participation Type
-          </span>
-          <div className="flex space-x-4">
-            <button
-              type="button"
-              onClick={() => handleTeamTypeChange('individual')}
-              className={`px-4 py-2 rounded-md ${formData.teamType === 'individual'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
-            >
-              Individual
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTeamTypeChange('team')}
-              className={`px-4 py-2 rounded-md ${formData.teamType === 'team'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
-            >
-              Team
-            </button>
-          </div>
+        <div className="bg-blue-50 border border-blue-200 p-4 rounded-md">
+          <p className="text-blue-700 font-medium">Team Size: Fixed at 4 members (including yourself)</p>
+          <p className="text-blue-600 text-sm mt-1">Please provide details for the other 3 team members below.</p>
         </div>
+        
         <div>
           <label htmlFor="teamName" className="block text-sm font-medium text-gray-700 mb-1">
             Team Name
@@ -537,143 +457,115 @@ const RegistrationForm = () => {
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             placeholder="Enter your team name"
           />
-          {!formData.teamName && (
-            <p className="mt-1 text-sm text-red-500">Team name is required regardless of participation type</p>
-          )}
         </div>
 
-        {formData.teamType === 'team' && (
-          <>
+        {/* Team Members Information */}
+        <div className="mt-8">
+          <h4 className="text-lg font-medium text-gray-800 mb-4">Team Member Details</h4>
+          <p className="text-gray-600 mb-6">Please provide details of all team members (excluding yourself).</p>
 
-            <div>
-              <label htmlFor="memberCount" className="block text-sm font-medium text-gray-700 mb-1">
-                Number of Members (including yourself)
-              </label>
-              <select
-                id="memberCount"
-                name="memberCount"
-                value={formData.memberCount}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              >
-                {[2, 3, 4].map((num) => (
-                  <option key={num} value={num}>
-                    {num} members
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Render exactly 3 team member fields */}
+          {Array.from({ length: 3 }).map((_, index) => {
+            const member = formData.teamMembers[index] || {
+              fullName: '',
+              email: '',
+              contactNumber: '',
+              institution: '',
+              tShirtSize: ''
+            };
 
-            {/* Team Members Information - Always show when team type is selected */}
-            <div className="mt-8">
-              <h4 className="text-lg font-medium text-gray-800 mb-4">Team Member Details</h4>
-              <p className="text-gray-600 mb-6">Please provide details of all team members (excluding yourself).</p>
-
-              {/* Force render team member fields even if array is empty */}
-              {Array.from({ length: formData.memberCount - 1 }).map((_, index) => {
-                // Get member data if available, otherwise use empty object
-                const member = formData.teamMembers[index] || {
-                  fullName: '',
-                  email: '',
-                  contactNumber: '',
-                  institution: '',
-                  tShirtSize: ''
-                };
-
-                return (
-                  <div key={index} className="mb-8 p-6 border border-gray-200 rounded-lg bg-gray-50">
-                    <h5 className="font-medium text-gray-700 mb-4">Team Member {index + 2}</h5>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Full Name
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={member.fullName}
-                          onChange={(e) => handleTeamMemberChange(index, 'fullName', e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="Enter team member's full name"
-                        />
-                        {member.fullName && !isValidName(member.fullName) && (
-                          <p className="text-red-500 text-sm mt-1">Name should only contain letters, spaces, and special characters (-'.) and be at least 3 characters long</p>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Email Address
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={member.email}
-                          onChange={(e) => handleTeamMemberChange(index, 'email', e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="Enter team member's email"
-                        />
-                        {member.email && !isValidEmail(member.email) && (
-                          <p className="text-red-500 text-sm mt-1">Please enter a valid email address</p>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Contact Number
-                        </label>
-                        <input
-                          type="tel"
-                          required
-                          value={member.contactNumber}
-                          onChange={(e) => handleTeamMemberChange(index, 'contactNumber', e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="Enter team member's contact number"
-                        />
-                        {member.contactNumber && !isValidPhone(member.contactNumber) && (
-                          <p className="text-red-500 text-sm mt-1">Phone number must be 10 digits</p>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Educational Institution/Organization
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={member.institution}
-                          onChange={(e) => handleTeamMemberChange(index, 'institution', e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="Enter team member's institution"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          T-Shirt Size
-                        </label>
-                        <select
-                          required
-                          value={member.tShirtSize}
-                          onChange={(e) => handleTeamMemberChange(index, 'tShirtSize', e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        >
-                          <option value="" disabled>Select t-shirt size</option>
-                          {tShirtSizes.map((size) => (
-                            <option key={size} value={size}>
-                              {size}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
+            return (
+              <div key={index} className="mb-8 p-6 border border-gray-200 rounded-lg bg-gray-50">
+                <h5 className="font-medium text-gray-700 mb-4">Team Member {index + 2}</h5>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={member.fullName}
+                      onChange={(e) => handleTeamMemberChange(index, 'fullName', e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter team member's full name"
+                    />
+                    {member.fullName && !isValidName(member.fullName) && (
+                      <p className="text-red-500 text-sm mt-1">Name should only contain letters, spaces, and special characters (-'.) and be at least 3 characters long</p>
+                    )}
                   </div>
-                );
-              })}
-            </div>
-          </>
-        )}
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={member.email}
+                      onChange={(e) => handleTeamMemberChange(index, 'email', e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter team member's email"
+                    />
+                    {member.email && !isValidEmail(member.email) && (
+                      <p className="text-red-500 text-sm mt-1">Please enter a valid email address</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Contact Number
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={member.contactNumber}
+                      onChange={(e) => handleTeamMemberChange(index, 'contactNumber', e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter team member's contact number"
+                    />
+                    {member.contactNumber && !isValidPhone(member.contactNumber) && (
+                      <p className="text-red-500 text-sm mt-1">Phone number must be 10 digits</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Educational Institution/Organization
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={member.institution}
+                      onChange={(e) => handleTeamMemberChange(index, 'institution', e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter team member's institution"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      T-Shirt Size
+                    </label>
+                    <select
+                      required
+                      value={member.tShirtSize}
+                      onChange={(e) => handleTeamMemberChange(index, 'tShirtSize', e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    >
+                      <option value="" disabled>Select t-shirt size</option>
+                      {tShirtSizes.map((size) => (
+                        <option key={size} value={size}>
+                          {size}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -771,7 +663,6 @@ const RegistrationForm = () => {
           <h4 className="font-medium text-gray-800 mb-2">Account Information</h4>
           <p className="text-gray-600">Email: {formData.email}</p>
           <p className="text-gray-600">Heard About Us: {formData.heardAboutUs}</p>
-
         </div>
 
         <div className="bg-gray-50 p-4 rounded-md">
@@ -785,29 +676,24 @@ const RegistrationForm = () => {
 
         <div className="bg-gray-50 p-4 rounded-md">
           <h4 className="font-medium text-gray-800 mb-2">Team Information</h4>
-          <p className="text-gray-600">Participation Type: {formData.teamType === 'individual' ? 'Individual' : 'Team'}</p>
-          {formData.teamType === 'team' && (
-            <>
-              <p className="text-gray-600">Team Name: {formData.teamName}</p>
-              <p className="text-gray-600">Number of Members: {formData.memberCount}</p>
+          <p className="text-gray-600">Team Name: {formData.teamName}</p>
+          <p className="text-gray-600">Number of Members: 4 (including yourself)</p>
 
-              {formData.teamMembers.length > 0 && (
-                <div className="mt-4">
-                  <h5 className="font-medium text-gray-700 mb-2">Team Members:</h5>
-                  <div className="space-y-3">
-                    {formData.teamMembers.map((member, index) => (
-                      <div key={index} className="pl-4 border-l-2 border-gray-300">
-                        <p className="text-gray-600"><strong>Member {index + 2}:</strong> {member.fullName}</p>
-                        <p className="text-gray-600">Email: {member.email}</p>
-                        <p className="text-gray-600">Contact: {member.contactNumber}</p>
-                        <p className="text-gray-600">Institution: {member.institution}</p>
-                        <p className="text-gray-600">T-Shirt Size: {member.tShirtSize}</p>
-                      </div>
-                    ))}
+          {formData.teamMembers.length > 0 && (
+            <div className="mt-4">
+              <h5 className="font-medium text-gray-700 mb-2">Team Members:</h5>
+              <div className="space-y-3">
+                {formData.teamMembers.map((member, index) => (
+                  <div key={index} className="pl-4 border-l-2 border-gray-300">
+                    <p className="text-gray-600"><strong>Member {index + 2}:</strong> {member.fullName}</p>
+                    <p className="text-gray-600">Email: {member.email}</p>
+                    <p className="text-gray-600">Contact: {member.contactNumber}</p>
+                    <p className="text-gray-600">Institution: {member.institution}</p>
+                    <p className="text-gray-600">T-Shirt Size: {member.tShirtSize}</p>
                   </div>
-                </div>
-              )}
-            </>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 
@@ -824,8 +710,6 @@ const RegistrationForm = () => {
       </div>
     </div>
   );
-
-
 
   // Render success message after form submission
   const renderSuccessMessage = () => (
@@ -868,8 +752,6 @@ const RegistrationForm = () => {
     </div>
   );
 
-
-  // Helper function to check if current step is valid
   // Helper function to check if current step is valid
   const isStepValid = () => {
     switch (step) {
@@ -893,20 +775,11 @@ const RegistrationForm = () => {
           formData.idCard
         );
       case 3:
-        // Always require team name
-        if (!formData.teamName) {
-          return false;
-        }
-
-        // For team participation type, check additional requirements
-        if (formData.teamType === 'team') {
-          // Check if member count is filled
-          if (!formData.memberCount) {
-            return false;
-          }
-
-          // Check if all team members have required information
-          return formData.teamMembers.every(member => (
+        // Always require team name and all 3 team members
+        return (
+          formData.teamName &&
+          formData.teamMembers.length === 3 && 
+          formData.teamMembers.every(member => (
             member.fullName &&
             isValidName(member.fullName) &&
             member.email &&
@@ -915,12 +788,8 @@ const RegistrationForm = () => {
             isValidPhone(member.contactNumber) &&
             member.institution &&
             member.tShirtSize
-          ));
-        }
-
-        // For individual participation, only teamName is required
-        return true;
-
+          ))
+        );
       case 4:
         return formData.domain;
       default:
